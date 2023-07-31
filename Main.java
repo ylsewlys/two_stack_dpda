@@ -80,9 +80,16 @@ public class Main{
 
         
         ArrayList<State> stateList = new ArrayList<State>();
+        ArrayList<String> stateNameList = new ArrayList<String>();
+        ArrayList<String> inputList = new ArrayList<String>();
+
+        ArrayList<Transition> transitionList = new ArrayList<Transition>();
 
         Stack<Character> stackZero = new Stack<Character>();
         Stack<Character> stackOne = new Stack<Character>();
+
+        State initialState;
+        ArrayList<State> finalStateList = new ArrayList<State>();
 
         // for while loops
         int i, k;
@@ -97,108 +104,94 @@ public class Main{
             br = new BufferedReader(new FileReader("machine_text_files/anbncn.txt"));
 
 
-
             int stateCount;
+            int inputCount;
             int transitionCount;
             int finalStateCount;
 
+            stateCount = Integer.parseInt(br.readLine());
 
+            String line = br.readLine();
+            String[] stateNameArr = line.split(" ");
+
+            
+        
+            for(i = 0; i < stateCount; i++){
+                stateList.add(new State(stateNameArr[i]));
+                stateNameList.add(stateNameArr[i]);
+            }
+
+            inputCount = Integer.parseInt(br.readLine());
+
+            line = br.readLine();
+            String[] inputArr = line.split(" ");
+
+            for(i = 0; i < inputCount; i++){
+                inputList.add(inputArr[i]);
+            }
+
+            transitionCount = Integer.parseInt(br.readLine());
+
+            String readInput;
+            String stkOnePop;
+            String stkTwoPop;
+        
+            State nextState;
+            String stkOnePush;
+            String stkTwoPush;
+
+            String[] transitionElementsArr;
+            for(i = 0; i < transitionCount; i++){
+                line = br.readLine();
+                transitionElementsArr = line.split(" ");
+
+                readInput = transitionElementsArr[1];
+                stkOnePop = transitionElementsArr[2];
+                stkTwoPop = transitionElementsArr[3];
+                nextState = stateList.get(stateNameList.indexOf(transitionElementsArr[4]));
+                stkOnePush = transitionElementsArr[5];
+                stkTwoPush = transitionElementsArr[6];
+
+                stateList.get(stateNameList.indexOf(transitionElementsArr[0])).getStateTransitions().add(new Transition(readInput, stkOnePop, stkTwoPop, nextState, stkOnePush, stkTwoPush));
+            }
+
+
+            initialState = stateList.get(stateNameList.indexOf(br.readLine()));
+
+            finalStateCount = Integer.parseInt(br.readLine());
+
+            line = br.readLine();
+            String[] finalStateNameArr = line.split(" ");
+
+            for(i = 0; i < finalStateCount; i++){
+                finalStateList.add(stateList.get(stateNameList.indexOf(finalStateNameArr[i])));
+            }
 
 
             br.close();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        System.out.println("STATES: ");
+        for(i = 0; i < stateList.size(); i++){
+            System.out.println("STATE: " + stateList.get(i).getStateName());
+            for(k = 0; k < stateList.get(i).getStateTransitions().size(); k++){
+                System.out.printf("TRANSITION: (" + stateList.get(i).getStateTransitions().get(k).getReadInput());
+                System.out.printf(", " + stateList.get(i).getStateTransitions().get(k).getStackOnePop());
+                System.out.printf(", " + stateList.get(i).getStateTransitions().get(k).getStackTwoPop());
+                System.out.printf(", " + stateList.get(i).getStateTransitions().get(k).getNextState().getStateName());
+                System.out.printf(", " + stateList.get(i).getStateTransitions().get(k).getStackOnePush());
+                System.out.println(", " + stateList.get(i).getStateTransitions().get(k).getStackTwoPush() + ")");
+            }
+            
+        }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        ArrayList<Transition> q0Transitions = new ArrayList<Transition>();
-        ArrayList<Transition> q1Transitions = new ArrayList<Transition>();
-        ArrayList<Transition> q2Transitions = new ArrayList<Transition>();
-        ArrayList<Transition> qfTransitions = new ArrayList<Transition>();      
-
-        Character initialStackZeroSymbol = 'X';
-        Character initialStackOneSymbol = 'Y';
-
-        stackZero.push(initialStackZeroSymbol);
-        stackOne.push(initialStackOneSymbol);
-
-        // INITIALIZE STATES
-        State stateZero = new State("q0");
-        State stateOne = new State("q1");
-        State stateTwo = new State("q2");
-        State finalState = new State("qf");
-
-
-        // STATE NAME LIST IN STRING FORMAT
-        ArrayList<String> strStateList = new ArrayList<String>();
-
-        strStateList.add(stateZero.getStateName());
-        strStateList.add(stateOne.getStateName());
-        strStateList.add(stateTwo.getStateName());
-        strStateList.add(finalState.getStateName());
-
-        // INITIALIZE TRANSITIONS
-
-        // q0 Transitions
-        Transition q0TsOne = new Transition("a", "a", "Y", stateZero, "aa", "Y");
-        Transition q0TsTwo = new Transition("a", "X", "Y", stateZero, "aX", "Y");
-        Transition q0TsThree = new Transition("b", "a", "Y", stateOne, "\u03B5", "bY");
-
-        q0Transitions.add(q0TsOne);
-        q0Transitions.add(q0TsTwo);
-        q0Transitions.add(q0TsThree);
-
-        // q1 Transitions
-        Transition q1TsOne = new Transition("b", "a", "b", stateOne, "\u03B5", "bb");
-        Transition q1TsTwo = new Transition("c", "X", "b", stateTwo, "X", "\u03B5");
-
-        q1Transitions.add(q1TsOne);
-        q1Transitions.add(q1TsTwo);        
-
-        // q2 Transitions
-        Transition q2TsOne = new Transition("c", "X", "b", stateTwo, "X", "\u03B5");
-        Transition q2TsTwo = new Transition("\u03B5", "X", "Y", finalState, "ε", "ε");
-
-        q2Transitions.add(q2TsOne);
-        q2Transitions.add(q2TsTwo);       
-
-        // SET STATE TRANSITIONS
-        stateZero.setTransitionList(q0Transitions);
-        stateOne.setTransitionList(q1Transitions);
-        stateTwo.setTransitionList(q2Transitions);
-        finalState.setTransitionList(qfTransitions);
-
-
-
-
-
-        // ADD STATES TO STATES LIST
-        stateList.add(stateZero);
-        stateList.add(stateOne);
-        stateList.add(stateTwo);
-        stateList.add(finalState);
-
-
-
-
-        State currentState = stateZero;
+    
+        State currentState;
 
         i = 0;
 
@@ -206,89 +199,89 @@ public class Main{
         System.out.println(testStr.length());
 
 
-        while((i <= inputString.length()) && !isStringRejected){
+        // while((i <= inputString.length()) && !isStringRejected){
 
-            if(i < inputString.length()){
-                c = inputString.charAt(i);
-                System.out.println("CHARACTER READ: " + c);
-            }
+        //     if(i < inputString.length()){
+        //         c = inputString.charAt(i);
+        //         System.out.println("CHARACTER READ: " + c);
+        //     }
 
 
 
-            k = 0;
-            isTransitionFound = false;
-            while(k < currentState.getStateTransitions().size() && !isTransitionFound){
+        //     k = 0;
+        //     isTransitionFound = false;
+        //     while(k < currentState.getStateTransitions().size() && !isTransitionFound){
 
                 
-                Transition transition = currentState.getStateTransitions().get(k);
+        //         Transition transition = currentState.getStateTransitions().get(k);
 
-                System.out.println("TRANSITION: ");
-                System.out.printf(transition.getReadInput() + " ");
-                System.out.printf(transition.getStackOnePop() + " ");
-                System.out.printf(transition.getStackTwoPop() + " ");
-                System.out.printf(transition.getNextState().getStateName() + " ");
-                System.out.printf(transition.getStackOnePush() + " ");
-                System.out.println(transition.getStackTwoPush());
-
-
-                System.out.println("STACK ZERO POP: " + transition.getStackOnePop());
-                System.out.println("STACK ONE POP: " + transition.getStackTwoPop());
-                System.out.println("STACK ZERO TOP: " + stackZero.peek());
-                System.out.println("STACK ONE TOP: " + stackOne.peek());
-                System.out.println("STACK ZERO PUSH: " + transition.getStackOnePush());
-                System.out.println("STACK ONE PUSH: " + transition.getStackTwoPush());
-
-                System.out.println("STACK ZERO: " + stackZero);
-                System.out.println("STACK ONE: " + stackOne);
-
-                if(i < inputString.length()){
-                    System.out.println("CHARACTER READ: " + c);
-                }
+        //         System.out.println("TRANSITION: ");
+        //         System.out.printf(transition.getReadInput() + " ");
+        //         System.out.printf(transition.getStackOnePop() + " ");
+        //         System.out.printf(transition.getStackTwoPop() + " ");
+        //         System.out.printf(transition.getNextState().getStateName() + " ");
+        //         System.out.printf(transition.getStackOnePush() + " ");
+        //         System.out.println(transition.getStackTwoPush());
 
 
-                System.out.println("TRANSITION READ INPUT: " + transition.getReadInput().charAt(0));
-                if((c == transition.getReadInput().charAt(0) && isStringValidForPop(stackZero, transition.getStackOnePop()) && isStringValidForPop(stackOne, transition.getStackTwoPop())) || (i == inputString.length() && transition.getReadInput().charAt(0) == 'ε' && isStringValidForPop(stackZero, transition.getStackOnePop()) && isStringValidForPop(stackOne, transition.getStackTwoPop()))){
-                    popString(stackZero, transition.getStackOnePop());
-                    popString(stackOne, transition.getStackTwoPop());
+        //         System.out.println("STACK ZERO POP: " + transition.getStackOnePop());
+        //         System.out.println("STACK ONE POP: " + transition.getStackTwoPop());
+        //         System.out.println("STACK ZERO TOP: " + stackZero.peek());
+        //         System.out.println("STACK ONE TOP: " + stackOne.peek());
+        //         System.out.println("STACK ZERO PUSH: " + transition.getStackOnePush());
+        //         System.out.println("STACK ONE PUSH: " + transition.getStackTwoPush());
 
-                    pushString(stackZero, transition.getStackOnePush());
-                    pushString(stackOne, transition.getStackTwoPush());
+        //         System.out.println("STACK ZERO: " + stackZero);
+        //         System.out.println("STACK ONE: " + stackOne);
 
-                    System.out.println("STACK ZERO: " + stackZero);
-                    System.out.println("STACK ONE: " + stackOne);
-
-                    isTransitionFound = true;
-
-                    currentState = transition.getNextState();
-
-                    System.out.println("TRANSITION FOUND!");
-                    System.out.println("NEXT STATE: " + currentState.getStateName());
-                }
-
-                k++;
-            }
-
-            if(!isTransitionFound){
-                System.out.println("REJECT STRING PLS");
-                isStringRejected = true;
-            }
-
-            if(currentState == finalState){
-                System.out.println("FINAL STATE");
-            }
-
-            i++;
-        }
+        //         if(i < inputString.length()){
+        //             System.out.println("CHARACTER READ: " + c);
+        //         }
 
 
+        //         System.out.println("TRANSITION READ INPUT: " + transition.getReadInput().charAt(0));
+        //         if((c == transition.getReadInput().charAt(0) && isStringValidForPop(stackZero, transition.getStackOnePop()) && isStringValidForPop(stackOne, transition.getStackTwoPop())) || (i == inputString.length() && transition.getReadInput().charAt(0) == 'ε' && isStringValidForPop(stackZero, transition.getStackOnePop()) && isStringValidForPop(stackOne, transition.getStackTwoPop()))){
+        //             popString(stackZero, transition.getStackOnePop());
+        //             popString(stackOne, transition.getStackTwoPop());
+
+        //             pushString(stackZero, transition.getStackOnePush());
+        //             pushString(stackOne, transition.getStackTwoPush());
+
+        //             System.out.println("STACK ZERO: " + stackZero);
+        //             System.out.println("STACK ONE: " + stackOne);
+
+        //             isTransitionFound = true;
+
+        //             currentState = transition.getNextState();
+
+        //             System.out.println("TRANSITION FOUND!");
+        //             System.out.println("NEXT STATE: " + currentState.getStateName());
+        //         }
+
+        //         k++;
+        //     }
+
+        //     if(!isTransitionFound){
+        //         System.out.println("REJECT STRING PLS");
+        //         isStringRejected = true;
+        //     }
+
+        //     if(currentState == finalState){
+        //         System.out.println("FINAL STATE");
+        //     }
+
+        //     i++;
+        // }
 
 
-        System.out.println("IS STRING REJECTED: " + isStringRejected);
-        if(!isStringRejected){
-            System.out.println("ACCEPT STRING :O");
-        }
-        System.out.println(stackZero);
-        System.out.println(stackOne);
+
+
+        // System.out.println("IS STRING REJECTED: " + isStringRejected);
+        // if(!isStringRejected){
+        //     System.out.println("ACCEPT STRING :O");
+        // }
+        // System.out.println(stackZero);
+        // System.out.println(stackOne);
 
 
     }
