@@ -88,7 +88,7 @@ public class Main{
         Stack<Character> stackZero = new Stack<Character>();
         Stack<Character> stackOne = new Stack<Character>();
 
-        State initialState;
+        State initialState = new State("");
         ArrayList<State> finalStateList = new ArrayList<State>();
 
         // for while loops
@@ -189,14 +189,20 @@ public class Main{
             
         }
 
-
+        System.out.println("INITIAL STATES: " + initialState.getStateName());
+        System.out.printf("FINAL STATES: ");
+        for(i = 0; i < finalStateList.size(); i++){
+            System.out.printf("" + finalStateList.get(i).getStateName());
+        }
     
+        System.out.printf("\n");
+        
         State currentState;
 
         i = 0;
 
-        String testStr = "HELLO" + " ";
-        System.out.println(testStr.length());
+        // String testStr = "HELLO" + " ";
+        // System.out.println(testStr.length());
 
 
         // while((i <= inputString.length()) && !isStringRejected){
