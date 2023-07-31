@@ -5,6 +5,7 @@ public class State {
 
     private String stateName;
     private ArrayList<Transition> transitionList = new ArrayList<Transition>();
+    private boolean isFinalState;
 
 
     public State(String stateName){
@@ -27,6 +28,10 @@ public class State {
         this.transitionList = transitionList;
     }
 
+    public void setFinalStateStatus(boolean status){
+        this.isFinalState = status;
+    }
+
 
     // GETTERS
 
@@ -36,6 +41,10 @@ public class State {
 
     public ArrayList<Transition> getStateTransitions(){
         return transitionList;
+    }
+
+    public boolean getFinalStateStatus(){
+        return isFinalState;
     }
 
 }

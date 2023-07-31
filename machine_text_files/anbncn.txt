@@ -13,3 +13,4 @@ q2 ε X Y qf ε ε
 q0
 1
 qf
+X Y
