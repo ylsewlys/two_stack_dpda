@@ -74,8 +74,6 @@ public class Main{
     public static void main(String[] args){
 
         String inputString = "aabbcc";
-        boolean isAccept = false;
-        boolean isFinalState = false;
         boolean isStringRejected = false;
         boolean isTransitionFound;
         String acceptStringBy = "Empty Stack";
