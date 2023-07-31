@@ -69,7 +69,7 @@ public class Main{
 
     public static void main(String[] args){
 
-        String inputString = "aaabbbcccc";
+        String inputString = "aaabbbccc";
         boolean isAccept = false;
         boolean isFinalState = false;
         boolean isStringRejected = false;
