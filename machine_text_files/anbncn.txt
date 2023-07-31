@@ -1,0 +1,15 @@
+4
+q0 q1 q2 qf
+3
+a b c
+7
+q0 a a Y q0 aa Y
+q0 a X Y q0 aX Y
+q0 b a Y q1 ε bY
+q1 b a b q1 ε bb
+q1 c X b q2 X ε
+q2 c X b q2 X ε
+q2 ε X Y qf ε ε
+q0
+1
+qf

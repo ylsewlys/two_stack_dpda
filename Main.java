@@ -1,6 +1,9 @@
 import java.util.Stack;
 import java.util.ArrayList;
 import java.lang.StringBuilder;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 
 public class Main{
@@ -84,6 +87,45 @@ public class Main{
         // for while loops
         int i, k;
         char c = ' ';
+
+
+        // READ FILE
+        try {
+            // INITIALIZE LISTS 
+            
+            BufferedReader br;
+            br = new BufferedReader(new FileReader("machine_text_files/anbncn.txt"));
+
+
+
+            int stateCount;
+            int transitionCount;
+            int finalStateCount;
+
+
+
+
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         ArrayList<Transition> q0Transitions = new ArrayList<Transition>();
