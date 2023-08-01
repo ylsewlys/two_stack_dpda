@@ -296,154 +296,159 @@ public class Main{
 
                         }
 
-                        System.out.printf("].\nEnter input: ");
+
+                        System.out.printf("]. Otherwise, input 'Exit' to go back to menu.\nEnter input: ");
                         inputString = sc.nextLine();
 
-                        // INITIALIZE STACK
-                        stackZero.clear();
-                        stackOne.clear();
+                        if(!(inputString.compareTo("Exit") == 0)){
+                            // INITIALIZE STACK
+                            stackZero.clear();
+                            stackOne.clear();
 
-                        stackZero.push(stackSymbolList.get(0));
-                        stackOne.push(stackSymbolList.get(1));
-
-
-
-                        System.out.println("STATES: ");
-                        for(i = 0; i < stateList.size(); i++){
-                            System.out.println("STATE: " + stateList.get(i).getStateName());
-                            for(k = 0; k < stateList.get(i).getStateTransitions().size(); k++){
-                                System.out.printf("TRANSITION: (" + stateList.get(i).getStateTransitions().get(k).getReadInput());
-                                System.out.printf(", " + stateList.get(i).getStateTransitions().get(k).getStackOnePop());
-                                System.out.printf(", " + stateList.get(i).getStateTransitions().get(k).getStackTwoPop());
-                                System.out.printf(", " + stateList.get(i).getStateTransitions().get(k).getNextState().getStateName());
-                                System.out.printf(", " + stateList.get(i).getStateTransitions().get(k).getStackOnePush());
-                                System.out.println(", " + stateList.get(i).getStateTransitions().get(k).getStackTwoPush() + ")");
-                            }
-                            
-                        }
-
-                        System.out.println("INITIAL STATE: " + initialState.getStateName());
-                        System.out.printf("FINAL STATES: ");
-                        for(i = 0; i < finalStateList.size(); i++){
-                            System.out.printf("" + finalStateList.get(i).getStateName());
-                        }
-                    
-                        System.out.printf("\n");
-                        
-                        State currentState = initialState;
-
-                        i = 0;
-
-                        // String testStr = "HELLO" + " ";
-                        // System.out.println(testStr.length());
-
-                        isStringRejected = false;
-
-                        while((i <= inputString.length()) && !isStringRejected){
-
-                            if(i < inputString.length()){
-                                c = inputString.charAt(i);
-                                System.out.println("CHARACTER READ: " + c);
-                            }
+                            stackZero.push(stackSymbolList.get(0));
+                            stackOne.push(stackSymbolList.get(1));
 
 
 
-                            k = 0;
-                            isTransitionFound = false;
-                            while(k < currentState.getStateTransitions().size() && !isTransitionFound){
-
+                            System.out.println("STATES: ");
+                            for(i = 0; i < stateList.size(); i++){
+                                System.out.println("STATE: " + stateList.get(i).getStateName());
+                                for(k = 0; k < stateList.get(i).getStateTransitions().size(); k++){
+                                    System.out.printf("TRANSITION: (" + stateList.get(i).getStateTransitions().get(k).getReadInput());
+                                    System.out.printf(", " + stateList.get(i).getStateTransitions().get(k).getStackOnePop());
+                                    System.out.printf(", " + stateList.get(i).getStateTransitions().get(k).getStackTwoPop());
+                                    System.out.printf(", " + stateList.get(i).getStateTransitions().get(k).getNextState().getStateName());
+                                    System.out.printf(", " + stateList.get(i).getStateTransitions().get(k).getStackOnePush());
+                                    System.out.println(", " + stateList.get(i).getStateTransitions().get(k).getStackTwoPush() + ")");
+                                }
                                 
-                                Transition transition = currentState.getStateTransitions().get(k);
+                            }
 
-                                System.out.println("TRANSITION: ");
-                                System.out.printf(transition.getReadInput() + " ");
-                                System.out.printf(transition.getStackOnePop() + " ");
-                                System.out.printf(transition.getStackTwoPop() + " ");
-                                System.out.printf(transition.getNextState().getStateName() + " ");
-                                System.out.printf(transition.getStackOnePush() + " ");
-                                System.out.println(transition.getStackTwoPush());
+                            System.out.println("INITIAL STATE: " + initialState.getStateName());
+                            System.out.printf("FINAL STATES: ");
+                            for(i = 0; i < finalStateList.size(); i++){
+                                System.out.printf("" + finalStateList.get(i).getStateName());
+                            }
+                        
+                            System.out.printf("\n");
+                            
+                            State currentState = initialState;
 
+                            i = 0;
 
-                                System.out.println("STACK ZERO POP: " + transition.getStackOnePop());
-                                System.out.println("STACK ONE POP: " + transition.getStackTwoPop());
-                                System.out.println("STACK ZERO TOP: " + stackZero.peek());
-                                System.out.println("STACK ONE TOP: " + stackOne.peek());
-                                System.out.println("STACK ZERO PUSH: " + transition.getStackOnePush());
-                                System.out.println("STACK ONE PUSH: " + transition.getStackTwoPush());
+                            // String testStr = "HELLO" + " ";
+                            // System.out.println(testStr.length());
 
-                                System.out.println("STACK ZERO: " + stackZero);
-                                System.out.println("STACK ONE: " + stackOne);
+                            isStringRejected = false;
 
-                                if(i <= inputString.length()){
+                            while((i <= inputString.length()) && !isStringRejected){
+
+                                if(i < inputString.length()){
+                                    c = inputString.charAt(i);
                                     System.out.println("CHARACTER READ: " + c);
                                 }
 
 
-                                System.out.println("TRANSITION READ INPUT: " + transition.getReadInput().charAt(0));
-                                if((c == transition.getReadInput().charAt(0) && i < inputString.length() && isStringValidForPop(stackZero, transition.getStackOnePop()) && isStringValidForPop(stackOne, transition.getStackTwoPop())) || (i == inputString.length() && transition.getReadInput().charAt(0) == 'ε' && isStringValidForPop(stackZero, transition.getStackOnePop()) && isStringValidForPop(stackOne, transition.getStackTwoPop()))){
-                                    popString(stackZero, transition.getStackOnePop());
-                                    popString(stackOne, transition.getStackTwoPop());
 
-                                    pushString(stackZero, transition.getStackOnePush());
-                                    pushString(stackOne, transition.getStackTwoPush());
+                                k = 0;
+                                isTransitionFound = false;
+                                while(k < currentState.getStateTransitions().size() && !isTransitionFound){
+
+                                    
+                                    Transition transition = currentState.getStateTransitions().get(k);
+
+                                    System.out.println("TRANSITION: ");
+                                    System.out.printf(transition.getReadInput() + " ");
+                                    System.out.printf(transition.getStackOnePop() + " ");
+                                    System.out.printf(transition.getStackTwoPop() + " ");
+                                    System.out.printf(transition.getNextState().getStateName() + " ");
+                                    System.out.printf(transition.getStackOnePush() + " ");
+                                    System.out.println(transition.getStackTwoPush());
+
+
+                                    System.out.println("STACK ZERO POP: " + transition.getStackOnePop());
+                                    System.out.println("STACK ONE POP: " + transition.getStackTwoPop());
+                                    System.out.println("STACK ZERO TOP: " + stackZero.peek());
+                                    System.out.println("STACK ONE TOP: " + stackOne.peek());
+                                    System.out.println("STACK ZERO PUSH: " + transition.getStackOnePush());
+                                    System.out.println("STACK ONE PUSH: " + transition.getStackTwoPush());
 
                                     System.out.println("STACK ZERO: " + stackZero);
                                     System.out.println("STACK ONE: " + stackOne);
 
-                                    isTransitionFound = true;
+                                    if(i <= inputString.length()){
+                                        System.out.println("CHARACTER READ: " + c);
+                                    }
 
-                                    currentState = transition.getNextState();
 
-                                    System.out.println("TRANSITION FOUND!");
-                                    System.out.println("NEXT STATE: " + currentState.getStateName());
+                                    System.out.println("TRANSITION READ INPUT: " + transition.getReadInput().charAt(0));
+                                    if((c == transition.getReadInput().charAt(0) && i < inputString.length() && isStringValidForPop(stackZero, transition.getStackOnePop()) && isStringValidForPop(stackOne, transition.getStackTwoPop())) || (i == inputString.length() && transition.getReadInput().charAt(0) == 'ε' && isStringValidForPop(stackZero, transition.getStackOnePop()) && isStringValidForPop(stackOne, transition.getStackTwoPop()))){
+                                        popString(stackZero, transition.getStackOnePop());
+                                        popString(stackOne, transition.getStackTwoPop());
+
+                                        pushString(stackZero, transition.getStackOnePush());
+                                        pushString(stackOne, transition.getStackTwoPush());
+
+                                        System.out.println("STACK ZERO: " + stackZero);
+                                        System.out.println("STACK ONE: " + stackOne);
+
+                                        isTransitionFound = true;
+
+                                        currentState = transition.getNextState();
+
+                                        System.out.println("TRANSITION FOUND!");
+                                        System.out.println("NEXT STATE: " + currentState.getStateName());
+                                    }
+
+                                    k++;
                                 }
 
-                                k++;
+
+                                // IF NO TRANSITION IS FOUND
+                                if(!isTransitionFound){
+                                    System.out.println("REJECT STRING PLS");
+                                    isStringRejected = true;
+                                }
+
+                                if(finalStateList.indexOf(currentState) != -1){
+                                    System.out.println("FINAL STATE");
+                                }
+
+                                i++;
                             }
 
 
-                            // IF NO TRANSITION IS FOUND
-                            if(!isTransitionFound){
-                                System.out.println("REJECT STRING PLS");
-                                isStringRejected = true;
+                            // IF WHOLE STRING INPUT IS READ, CHECK IF STRING IS TO BE ACCEPTED VIA FINAL STATE OR EMPTY STACKS
+
+                            if(acceptStringBy == "Final State"){
+                                if(currentState.getFinalStateStatus() == true){
+                                    isStringRejected = false;
+                                    System.out.println("FINAL STATE REACHED! ACCEPT STRING");
+                                }else{
+                                    isStringRejected = true;
+                                    System.out.println("FINAL STATE NOT REACHED");
+                                }
+                            }else if(acceptStringBy == "Empty Stack"){
+                                if(stackZero.isEmpty() == true && stackOne.isEmpty() == true){
+                                    isStringRejected = false;
+                                    System.out.println("BOTH STACKS ARE EMPTY");
+                                }else{
+                                    isStringRejected = true;
+                                    System.out.println("EITHER OF THE STACKS IS NOT YET EMPTY");
+                                }
                             }
 
-                            if(finalStateList.indexOf(currentState) != -1){
-                                System.out.println("FINAL STATE");
-                            }
 
-                            i++;
+
+                            System.out.println("IS STRING REJECTED: " + isStringRejected);
+                            if(!isStringRejected){
+                                System.out.println("ACCEPT STRING :O");
+                            }
+                            System.out.println(stackZero);
+                            System.out.println(stackOne);                                           
                         }
 
-
-                        // IF WHOLE STRING INPUT IS READ, CHECK IF STRING IS TO BE ACCEPTED VIA FINAL STATE OR EMPTY STACKS
-
-                        if(acceptStringBy == "Final State"){
-                            if(currentState.getFinalStateStatus() == true){
-                                isStringRejected = false;
-                                System.out.println("FINAL STATE REACHED! ACCEPT STRING");
-                            }else{
-                                isStringRejected = true;
-                                System.out.println("FINAL STATE NOT REACHED");
-                            }
-                        }else if(acceptStringBy == "Empty Stack"){
-                            if(stackZero.isEmpty() == true && stackOne.isEmpty() == true){
-                                isStringRejected = false;
-                                System.out.println("BOTH STACKS ARE EMPTY");
-                            }else{
-                                isStringRejected = true;
-                                System.out.println("EITHER OF THE STACKS IS NOT YET EMPTY");
-                            }
-                        }
-
-
-
-                        System.out.println("IS STRING REJECTED: " + isStringRejected);
-                        if(!isStringRejected){
-                            System.out.println("ACCEPT STRING :O");
-                        }
-                        System.out.println(stackZero);
-                        System.out.println(stackOne);                    
+     
                     }
 
                 }else{
