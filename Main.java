@@ -73,7 +73,7 @@ public class Main{
 
     public static void main(String[] args){
 
-        String inputString = "aabbcc";
+        String inputString = "abcd";
         boolean isStringRejected = false;
         boolean isTransitionFound;
         String acceptStringBy = "Empty Stack";
@@ -100,7 +100,7 @@ public class Main{
             // INITIALIZE LISTS 
             
             BufferedReader br;
-            br = new BufferedReader(new FileReader("machine_text_files/anbncn.txt"));
+            br = new BufferedReader(new FileReader("machine_text_files/anbncndn.txt"));
 
 
             int stateCount;
