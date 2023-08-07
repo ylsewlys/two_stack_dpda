@@ -323,7 +323,7 @@ public class Main{
                                 }
                                 
                             }
-
+                            System.out.println("------------------------");
                             System.out.println("INITIAL STATE: " + initialState.getStateName());
                             System.out.printf("FINAL STATES: ");
                             for(i = 0; i < finalStateList.size(); i++){
@@ -343,6 +343,7 @@ public class Main{
 
                             while((i <= inputString.length()) && !isStringRejected){
 
+                                System.out.println("------------------------");
                                 if(i < inputString.length()){
                                     c = inputString.charAt(i);
                                     System.out.println("CHARACTER READ: " + c);
@@ -357,32 +358,18 @@ public class Main{
                                     
                                     Transition transition = currentState.getStateTransitions().get(k);
 
-                                    System.out.println("TRANSITION: ");
-                                    System.out.printf(transition.getReadInput() + " ");
-                                    System.out.printf(transition.getStackOnePop() + " ");
-                                    System.out.printf(transition.getStackTwoPop() + " ");
-                                    System.out.printf(transition.getNextState().getStateName() + " ");
-                                    System.out.printf(transition.getStackOnePush() + " ");
-                                    System.out.println(transition.getStackTwoPush());
-
-
-                                    System.out.println("STACK ZERO POP: " + transition.getStackOnePop());
-                                    System.out.println("STACK ONE POP: " + transition.getStackTwoPop());
-                                    System.out.println("STACK ZERO TOP: " + stackZero.peek());
-                                    System.out.println("STACK ONE TOP: " + stackOne.peek());
-                                    System.out.println("STACK ZERO PUSH: " + transition.getStackOnePush());
-                                    System.out.println("STACK ONE PUSH: " + transition.getStackTwoPush());
-
-                                    System.out.println("STACK ZERO: " + stackZero);
-                                    System.out.println("STACK ONE: " + stackOne);
-
-                                    if(i <= inputString.length()){
-                                        System.out.println("CHARACTER READ: " + c);
-                                    }
-
-
-                                    System.out.println("TRANSITION READ INPUT: " + transition.getReadInput().charAt(0));
                                     if((c == transition.getReadInput().charAt(0) && i < inputString.length() && isStringValidForPop(stackZero, transition.getStackOnePop()) && isStringValidForPop(stackOne, transition.getStackTwoPop())) || (i == inputString.length() && transition.getReadInput().charAt(0) == 'ε' && isStringValidForPop(stackZero, transition.getStackOnePop()) && isStringValidForPop(stackOne, transition.getStackTwoPop()))){
+                                        System.out.println("------------------------");
+                                        System.out.println("TRANSITION CHOSEN: ");
+
+
+                                        System.out.println("STACK ZERO POP: " + transition.getStackOnePop());
+                                        System.out.println("STACK ONE POP: " + transition.getStackTwoPop());
+                                        System.out.println("STACK ZERO TOP: " + stackZero.peek());
+                                        System.out.println("STACK ONE TOP: " + stackOne.peek());
+                                        System.out.println("STACK ZERO PUSH: " + transition.getStackOnePush());
+                                        System.out.println("STACK ONE PUSH: " + transition.getStackTwoPush());                                
+                                            
                                         popString(stackZero, transition.getStackOnePop());
                                         popString(stackOne, transition.getStackTwoPop());
 
